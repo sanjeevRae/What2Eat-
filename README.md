@@ -21,7 +21,7 @@ What2Eat is a modern College Canteen Management System designed to streamline th
 ## Installation
 1. Clone the repository:
    ```
-   git clone <repository-url>
+   git clone https://github.com/sanjeevRae/What2Eat
    ```
 2. Navigate to the project directory:
    ```
