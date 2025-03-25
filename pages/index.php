@@ -40,7 +40,7 @@ $featuredItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <img src="../assets/images/<?php echo $item['image']; ?>" class="card-img-top" alt="<?php echo $item['name']; ?>">
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $item['name']; ?></h5>
-                            <p class="card-text">Price: $<?php echo $item['price']; ?></p>
+                            <p class="card-text">Price: Rs<?php echo $item['price']; ?></p>
                             <a href="menu.php" class="btn btn-secondary">Order Now</a>
                         </div>
                     </div>

@@ -30,7 +30,7 @@ $menuItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <img src="../assets/images/<?php echo $item['image']; ?>" class="card-img-top" alt="<?php echo $item['name']; ?>">
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $item['name']; ?></h5>
-                            <p class="card-text">Price: $<?php echo $item['price']; ?></p>
+                            <p class="card-text">Price: Rs<?php echo $item['price']; ?></p>
                             <p class="card-text">Servings Available: <?php echo $item['servings']; ?></p>
                             <p class="card-text">Serving Time: <?php echo $item['serving_time']; ?></p>
                             <p class="card-text">Ingredients: <?php echo $item['ingredients']; ?></p>
