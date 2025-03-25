@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role']; // Assuming role is stored in the database
+            $_SESSION['role'] = $user['role']; 
             header("Location: ../../pages/user_dashboard.php");
             exit();
         } else {
