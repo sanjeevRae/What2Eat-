@@ -1,0 +1,28 @@
+-- Create users table
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,              -- Auto-incrementing user ID
+    username VARCHAR(255) UNIQUE NOT NULL,  -- Username field, unique and required
+    password VARCHAR(255) NOT NULL,      -- Password field, required
+    role VARCHAR(50) NOT NULL            -- Role field, required
+);
+
+-- Create food_items table
+CREATE TABLE food_items (
+    id SERIAL PRIMARY KEY,              
+    name VARCHAR(255) NOT NULL,          
+    description TEXT,                   
+    price DECIMAL(10, 2) NOT NULL,        
+    servings INT NOT NULL,               
+    serving_time VARCHAR(50) NOT NULL,    
+    image VARCHAR(255)                    
+);
+
+-- Create orders table
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,               -- Auto-incrementing order ID
+    user_id INT REFERENCES users(id) ON DELETE CASCADE, -- Foreign key to users table
+    food_item_id INT REFERENCES food_items(id) ON DELETE CASCADE, -- Foreign key to food_items table
+    quantity INT NOT NULL,               -- Quantity of the food item ordered
+    status VARCHAR(50) NOT NULL,         -- Status of the order (e.g., 'pending', 'completed', 'in-progress')
+    order_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Optional, to store the time the order was placed
+);
