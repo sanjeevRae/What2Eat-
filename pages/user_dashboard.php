@@ -1,58 +1,106 @@
 <?php
 session_start();
-include '../includes/header.php';
-include '../includes/navbar.php';
-include '../backend/db/connection.php';
+require_once '../backend/db/connection.php';
+require_once '../includes/navbar.php';
 
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+    header('Location: login.php');
     exit();
 }
 
-// Fetch user details
-$user_id = $_SESSION['user_id'];
-$stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
-$stmt->execute(['id' => $user_id]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt = $pdo->prepare("SELECT * FROM food_items");
+$stmt->execute();
+$food_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Fetch user orders
-$order_stmt = $pdo->prepare("SELECT * FROM orders WHERE user_id = :user_id");
-$order_stmt->execute(['user_id' => $user_id]);
+$order_stmt = $pdo->prepare("SELECT * FROM orders");
+$order_stmt->execute();
 $orders = $order_stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<div class="container">
-    <h1>Welcome, <?php echo htmlspecialchars($user['name']); ?></h1>
-    <h2>Your Orders</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Food Item</th>
-                <th>Quantity</th>
-                <th>Status</th>
-                <th>Order Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (count($orders) > 0): ?>
-                <?php foreach ($orders as $order): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($order['id']); ?></td>
-                        <td><?php echo htmlspecialchars($order['food_item']); ?></td>
-                        <td><?php echo htmlspecialchars($order['quantity']); ?></td>
-                        <td><?php echo htmlspecialchars($order['status']); ?></td>
-                        <td><?php echo htmlspecialchars($order['order_date']); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="5">No orders found.</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <?php include '../includes/header.php'; ?>
+  
+    <?php include '../includes/navbar.php'; ?>
 
-<?php include '../includes/footer.php'; ?>
+    <div class="container mt-5">
+        <h1 class="text-center display-4 mb-4">Admin Dashboard</h1>
+
+         <div class="card mb-5 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">Manage Food Items</h2>
+            </div>
+            <div class="card-body">
+                <a href="../backend/admin/add_food.php" class="btn btn-success mb-3">Add New Food Item</a>
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Servings</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($food_items as $item): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($item['id']); ?></td>
+                                <td><?php echo htmlspecialchars($item['name']); ?></td>
+                                <td>Rs <?php echo htmlspecialchars($item['price']); ?></td>
+                                <td><?php echo htmlspecialchars($item['servings']); ?></td>
+                                <td>
+                                    <a href="../backend/admin/edit_food.php?id=<?php echo $item['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="../backend/admin/delete_food.php?id=<?php echo $item['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                <h2 class="mb-0">Manage Orders</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Order ID</th>
+                            <th>User ID</th>
+                            <th>Food Item</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($orders as $order): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($order['id']); ?></td>
+                                <td><?php echo htmlspecialchars($order['user_id']); ?></td>
+                                <td><?php echo htmlspecialchars($order['food_item']); ?></td>
+                                <td><?php echo htmlspecialchars($order['status']); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <?php include '../includes/footer.php'; ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>

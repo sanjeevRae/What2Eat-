@@ -274,6 +274,13 @@ body.loaded .loading-spinner {
     }
 }
 
+/* Card Hover Effect */
+.card:hover {
+    transform: translateY(-5px); /* Slight lift effect */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
 /* Media Queries */
 @media (max-width: 1024px) {
     .menu-item {

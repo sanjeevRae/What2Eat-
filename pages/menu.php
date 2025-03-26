@@ -14,27 +14,34 @@ $menuItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu - What2Eat</title>
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
     <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
     <?php include '../includes/navbar.php'; ?>
-    <?php include '../includes/header.php'; ?>
 
+    <header class="bg-dark text-white py-5">
+        <div class="container text-center">
+            <h1 class="display-4">Our Menu</h1>
+            <p class="lead">Explore our delicious offerings!</p>
+        </div>
+    </header>
     <div class="container mt-5">
-        <h1 class="text-center">Menu</h1>
+        <h2 class="text-center display-4 mb-4">Menu</h2>
         <div class="row">
             <?php foreach ($menuItems as $item): ?>
                 <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="../assets/images/<?php echo $item['image']; ?>" class="card-img-top" alt="<?php echo $item['name']; ?>">
+                    <div class="card h-100 shadow-sm">
+                        <img src="../assets/images/<?php echo htmlspecialchars($item['image']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($item['name']); ?>">
                         <div class="card-body">
-                            <h5 class="card-title"><?php echo $item['name']; ?></h5>
-                            <p class="card-text">Price: Rs<?php echo $item['price']; ?></p>
-                            <p class="card-text">Servings Available: <?php echo $item['servings']; ?></p>
-                            <p class="card-text">Serving Time: <?php echo $item['serving_time']; ?></p>
-                            <p class="card-text">Ingredients: <?php echo $item['ingredients']; ?></p>
-                            <a href="#" class="btn btn-primary">Order Now</a>
+                            <h5 class="card-title"><?php echo htmlspecialchars($item['name']); ?></h5>
+                            <p class="card-text"><strong>Price:</strong> Rs <?php echo htmlspecialchars($item['price']); ?></p>
+                            <p class="card-text"><strong>Servings Available:</strong> <?php echo htmlspecialchars($item['servings']); ?></p>
+                            <p class="card-text"><strong>Serving Time:</strong> <?php echo htmlspecialchars($item['serving_time']); ?></p>
+                            <p class="card-text"><strong>Ingredients:</strong> <?php echo htmlspecialchars($item['ingredients']); ?></p>
+                            <a href="#" class="btn btn-success">Order Now</a>
                         </div>
                     </div>
                 </div>
@@ -43,7 +50,8 @@ $menuItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <?php include '../includes/footer.php'; ?>
-    <script src="../assets/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/script.js"></script>
 </body>
 </html>
