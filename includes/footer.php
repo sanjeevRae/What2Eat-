@@ -17,7 +17,7 @@
                     </li>
                     <li class="list-inline-item">
                         <a href="#" target="_blank" class="text-white">
-                            <i class="bi bi-twitter fs-4"></i>
+                            <i class="bi bi-github fs-4"></i>
                         </a>
                     </li>
                     <li class="list-inline-item">

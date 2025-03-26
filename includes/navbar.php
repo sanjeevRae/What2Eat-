@@ -13,26 +13,26 @@ session_start();
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="../index.php">Home</a>
+                    <a class="nav-link" href="./index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="menu.php">Menu</a>
+                    <a class="nav-link" href="./pages/menu.php">Menu</a>
                 </li>
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="user_dashboard.php">Dashboard</a>
+                        <a class="nav-link" href="./pages/user_dashboard.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="backend/auth/logout.php">Logout</a>
+                        <a class="nav-link" href="./backend/auth/logout.php">Logout</a>
                     </li>
                 <?php else: ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
+                        <a class="nav-link" href="./backend/auth/login.php">Login</a>
                     </li>
                 <?php endif; ?>
                 <?php if (isset($_SESSION['admin_id'])): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="admin_dashboard.php">Admin Dashboard</a>
+                        <a class="nav-link" href="./pages/admin_dashboard.php">Admin Dashboard</a>
                     </li>
                 <?php endif; ?>
             </ul>
