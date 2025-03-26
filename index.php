@@ -29,7 +29,7 @@ $featuredItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="container">
         <h1 class="display-4">Welcome to What2Eat</h1>
         <p class="lead">Your favorite college canteen at your fingertips!</p>
-        <a href="menu.php" class="btn btn-success btn-lg">View Menu</a>
+        <a href="./pages/menu.php" class="btn btn-success btn-lg">View Menu</a>
     </div>
 </div>
 
@@ -44,7 +44,7 @@ $featuredItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <div class="card-body">
                             <h5 class="card-title"><?php echo htmlspecialchars($item['name']); ?></h5>
                             <p class="card-text">Price: Rs <?php echo htmlspecialchars($item['price']); ?></p>
-                            <a href="menu.php" class="btn btn-primary">Order Now</a>
+                            <a href="./pages/menu.php" class="btn btn-primary">Order Now</a>
                         </div>
                     </div>
                 </div>
