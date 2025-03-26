@@ -5,9 +5,7 @@ We've all been there—showing up at the canteen with no proper menu in sight, j
 
 Well, that's how What2Eat was born! 🎉 
 
-Inspired by the chaos of not knowing what's for lunch (or if there's even food available 🤣),
-
-I created this College Canteen Management System to fix the mess. With a user-friendly interface, it helps students and admins keep track of food availability, prices, and orders, making sure no one ever has to play "What's for lunch?" again! 😜🍽️
+Inspired by the chaos of not knowing what's for lunch (or if there's even food available 🤣),  I created this College Canteen Management System to fix the mess. With a user-friendly interface, it helps students and admins keep track of food availability, prices, and orders, making sure no one ever has to play "What's for lunch?" again! 😜🍽️
 
 ## Key Features
 1. **Hero Panel**: A dynamic hero panel showcasing featured food items with vibrant images and call-to-action buttons.
