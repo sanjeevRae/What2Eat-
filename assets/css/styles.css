@@ -6,17 +6,32 @@ body {
     background-color: #f8f9fa;
     line-height: 1.6;
     color: #212529;
-    scroll-behavior: smooth; /* Smooth scrolling */
+    scroll-behavior: smooth;
 }
 
 /* Header */
 header {
     background-color: #343a40;
     color: #ffffff;
-    padding: 20px;
+    padding: 40px 20px; 
     text-align: center;
+    font-size: 1.5em;
+    background: linear-gradient(135deg, #343a40, #495057); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    border-bottom: 5px solid #28a745; 
+}
+
+header h1 {
+    font-size: 2.5em;
+    font-weight: bold; 
+    margin-bottom: 10px; 
+}
+
+header p {
     font-size: 1.2em;
-    background: linear-gradient(135deg, #343a40, #495057); /* Subtle gradient */
+    font-style: italic;
+    margin: 0;
+    color: #dcdcdc;
 }
 
 /* Navbar */
@@ -26,10 +41,10 @@ header {
     align-items: center;
     padding: 10px 20px;
     background-color: #495057;
-    position: sticky; /* Sticky navbar */
+    position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for better visibility */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
 }
 
 .navbar a {

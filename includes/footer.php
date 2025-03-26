@@ -1,16 +1,30 @@
 <?php
-// Footer section of the What2Eat website
 ?>
 
-<footer class="footer">
+<footer class="footer bg-dark text-white py-4">
     <div class="container">
-        <div class="row">
-            <div class="col text-center">
-                <p>&copy; <?php echo date("Y"); ?> What2Eat. All rights reserved.</p>
-                <ul class="social-icons">
-                    <li><a href="#" target="_blank"><img src="assets/images/facebook-icon.png" alt="Facebook"></a></li>
-                    <li><a href="#" target="_blank"><img src="assets/images/twitter-icon.png" alt="Twitter"></a></li>
-                    <li><a href="#" target="_blank"><img src="assets/images/instagram-icon.png" alt="Instagram"></a></li>
+        <div class="row align-items-center">
+           
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                <p class="mb-0">&copy; <?php echo date("Y"); ?> What2Eat. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item">
+                        <a href="#" target="_blank" class="text-white">
+                            <i class="bi bi-facebook fs-4"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#" target="_blank" class="text-white">
+                            <i class="bi bi-twitter fs-4"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#" target="_blank" class="text-white">
+                            <i class="bi bi-instagram fs-4"></i>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
