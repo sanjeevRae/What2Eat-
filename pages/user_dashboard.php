@@ -3,19 +3,16 @@ session_start();
 require_once '../backend/db/connection.php';
 require_once '../includes/navbar.php';
 
-
-if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+// Check if the user is logged in and has the 'user' role
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'user') {
     header('Location: login.php');
     exit();
 }
 
-$stmt = $pdo->prepare("SELECT * FROM food_items");
-$stmt->execute();
-$food_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$order_stmt = $pdo->prepare("SELECT * FROM orders");
-$order_stmt->execute();
-$orders = $order_stmt->fetchAll(PDO::FETCH_ASSOC);
+// Fetch the logged-in user's orders
+$stmt = $pdo->prepare("SELECT * FROM orders WHERE user_id = :user_id");
+$stmt->execute(['user_id' => $_SESSION['user_id']]);
+$orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -23,83 +20,72 @@ $orders = $order_stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    
+    <title>User Dashboard - What2Eat</title>
+   
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="../assets/css/styles.css">
-    <title>Admin Dashboard</title>
 </head>
 <body>
+    <!-- Header -->
     <?php include '../includes/header.php'; ?>
-  
+
+    <!-- Navbar -->
     <?php include '../includes/navbar.php'; ?>
 
     <div class="container mt-5">
-        <h1 class="text-center display-4 mb-4">Admin Dashboard</h1>
+        <h1 class="text-center display-4 mb-4">User Dashboard</h1>
 
-         <div class="card mb-5 shadow-sm">
+        <!-- Order List Section -->
+        <div class="card shadow-sm">
             <div class="card-header bg-primary text-white">
-                <h2 class="mb-0">Manage Food Items</h2>
+                <h2 class="mb-0">Your Orders</h2>
             </div>
             <div class="card-body">
-                <a href="../backend/admin/add_food.php" class="btn btn-success mb-3">Add New Food Item</a>
-                <table class="table table-striped table-hover">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Servings</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($food_items as $item): ?>
+                <?php if (count($orders) > 0): ?>
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
                             <tr>
-                                <td><?php echo htmlspecialchars($item['id']); ?></td>
-                                <td><?php echo htmlspecialchars($item['name']); ?></td>
-                                <td>Rs <?php echo htmlspecialchars($item['price']); ?></td>
-                                <td><?php echo htmlspecialchars($item['servings']); ?></td>
-                                <td>
-                                    <a href="../backend/admin/edit_food.php?id=<?php echo $item['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="../backend/admin/delete_food.php?id=<?php echo $item['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
-                                </td>
+                                <th>Order ID</th>
+                                <th>Food Item</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($orders as $order): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($order['id']); ?></td>
+                                    <td><?php echo htmlspecialchars($order['food_item']); ?></td>
+                                    <td><?php echo htmlspecialchars($order['quantity']); ?></td>
+                                    <td><?php echo htmlspecialchars($order['status']); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php else: ?>
+                    <p class="text-center">You have no orders yet.</p>
+                <?php endif; ?>
             </div>
         </div>
 
-        <div class="card shadow-sm">
+        <!-- Menu Section -->
+        <div class="card mt-4 shadow-sm">
             <div class="card-header bg-secondary text-white">
-                <h2 class="mb-0">Manage Orders</h2>
+                <h2 class="mb-0">Order New Food</h2>
             </div>
             <div class="card-body">
-                <table class="table table-striped table-hover">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Order ID</th>
-                            <th>User ID</th>
-                            <th>Food Item</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($orders as $order): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($order['id']); ?></td>
-                                <td><?php echo htmlspecialchars($order['user_id']); ?></td>
-                                <td><?php echo htmlspecialchars($order['food_item']); ?></td>
-                                <td><?php echo htmlspecialchars($order['status']); ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                <a href="menu.php" class="btn btn-success">Browse Menu</a>
+                <p class="mt-2">Browse our menu to place new orders.</p>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
     <?php include '../includes/footer.php'; ?>
+
+    <!-- Bootstrap JS & Custom Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/script.js"></script>
 </body>

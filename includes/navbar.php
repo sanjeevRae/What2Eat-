@@ -13,14 +13,15 @@ session_start();
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="./index.php">Home</a>
+                    <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'index.php') ? 'active' : ''; ?>" href="./index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./pages/menu.php">Menu</a>
+                    <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'menu.php') ? 'active' : ''; ?>" href="./pages/menu.php">Menu</a>
                 </li>
+                
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="./pages/user_dashboard.php">Dashboard</a>
+                        <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'user_dashboard.php') ? 'active' : ''; ?>" href="./pages/user_dashboard.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="./backend/auth/logout.php">Logout</a>
@@ -30,9 +31,10 @@ session_start();
                         <a class="nav-link" href="./backend/auth/login.php">Login</a>
                     </li>
                 <?php endif; ?>
-                <?php if (isset($_SESSION['admin_id'])): ?>
+                
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="./pages/admin_dashboard.php">Admin Dashboard</a>
+                        <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'admin_dashboard.php') ? 'active' : ''; ?>" href="./pages/admin_dashboard.php">Admin Dashboard</a>
                     </li>
                 <?php endif; ?>
             </ul>

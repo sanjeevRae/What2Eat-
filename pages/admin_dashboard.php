@@ -2,6 +2,7 @@
 session_start();
 require_once '../backend/db/connection.php';
 require_once '../includes/navbar.php';
+
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
     header('Location: login.php');
     exit();
@@ -11,7 +12,9 @@ $stmt = $pdo->prepare("SELECT * FROM food_items");
 $stmt->execute();
 $food_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$order_stmt = $pdo->prepare("SELECT * FROM orders");
+$order_stmt = $pdo->prepare("SELECT orders.*, users.name AS user_name, food_items.name AS food_name FROM orders
+                             JOIN users ON orders.user_id = users.id
+                             JOIN food_items ON orders.food_id = food_items.id");
 $order_stmt->execute();
 $orders = $order_stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -54,7 +57,7 @@ $orders = $order_stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?php echo htmlspecialchars($item['servings']); ?></td>
                                 <td>
                                     <a href="../backend/admin/edit_food.php?id=<?php echo $item['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="../backend/admin/delete_food.php?id=<?php echo $item['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
+                                    <a href="../backend/admin/delete_food.php?id=<?php echo $item['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this food item?')">Delete</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -72,7 +75,7 @@ $orders = $order_stmt->fetchAll(PDO::FETCH_ASSOC);
                     <thead class="table-dark">
                         <tr>
                             <th>Order ID</th>
-                            <th>User ID</th>
+                            <th>User Name</th>
                             <th>Food Item</th>
                             <th>Status</th>
                         </tr>
@@ -81,8 +84,8 @@ $orders = $order_stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php foreach ($orders as $order): ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($order['id']); ?></td>
-                                <td><?php echo htmlspecialchars($order['user_id']); ?></td>
-                                <td><?php echo htmlspecialchars($order['food_item']); ?></td>
+                                <td><?php echo htmlspecialchars($order['user_name']); ?></td>
+                                <td><?php echo htmlspecialchars($order['food_name']); ?></td>
                                 <td><?php echo htmlspecialchars($order['status']); ?></td>
                             </tr>
                         <?php endforeach; ?>
@@ -94,6 +97,6 @@ $orders = $order_stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <?php include '../includes/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-   <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/script.js"></script>
 </body>
 </html>

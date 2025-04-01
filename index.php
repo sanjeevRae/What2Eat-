@@ -16,15 +16,14 @@ $featuredItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What2Eat</title>
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
- 
     <link rel="stylesheet" href="../assets/css/styles.css">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
 
 <?php include('../includes/navbar.php'); ?>
 
+<!-- Hero Panel -->
 <div class="hero-panel text-center text-white">
     <div class="container">
         <h1 class="display-4">Welcome to What2Eat</h1>
@@ -33,6 +32,7 @@ $featuredItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
+<!-- Featured Items -->
 <div class="featured-items my-5">
     <div class="container">
         <h2 class="text-center display-4 mb-4">Featured Food Items</h2>
@@ -40,7 +40,7 @@ $featuredItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php foreach ($featuredItems as $item): ?>
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 shadow-sm">
-                        <img src="../assets/images/<?php echo $item['image']; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($item['name']); ?>">
+                        <img src="../assets/images/<?php echo !empty($item['image']) ? $item['image'] : 'default.jpg'; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($item['name']); ?>">
                         <div class="card-body">
                             <h5 class="card-title"><?php echo htmlspecialchars($item['name']); ?></h5>
                             <p class="card-text">Price: Rs <?php echo htmlspecialchars($item['price']); ?></p>
@@ -53,6 +53,7 @@ $featuredItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
+<!-- About Us Section -->
 <div id="about" class="bg-light py-5">
     <div class="container text-center">
         <h2 class="display-4">About Us</h2>
@@ -62,13 +63,16 @@ $featuredItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <?php include('../includes/footer.php'); ?>
 
+<!-- Back to Top Button -->
 <button id="back-to-top" class="back-to-top btn btn-success rounded-circle">
     <i class="bi bi-arrow-up"></i>
 </button>
 
-<script src="../assets/js/bootstrap.min.js"></script>
-
+<!-- Bootstrap JavaScript (with Popper.js included) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/js/script.js"></script>
+
+<!-- Back to Top Button Script -->
 <script>
     const backToTopButton = document.getElementById('back-to-top');
     window.addEventListener('scroll', () => {
@@ -83,5 +87,6 @@ $featuredItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 </script>
+
 </body>
 </html>

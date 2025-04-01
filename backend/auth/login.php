@@ -2,21 +2,41 @@
 session_start();
 require_once '../db/connection.php';
 
+// Check if user is already logged in and redirect to dashboard
+if (isset($_SESSION['user_id'])) {
+    // Redirect based on the role
+    if ($_SESSION['role'] === 'admin') {
+        header('Location: ../../pages/admin_dashboard.php');
+    } else {
+        header('Location: ../../pages/user_dashboard.php');
+    }
+    exit();
+}
+
+// Process login form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
     if (!empty($username) && !empty($password)) {
+        // Prepare the SQL query
         $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
         $stmt->bindParam(':username', $username);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // Check if user exists and password is correct
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role']; 
-            header("Location: ../../pages/user_dashboard.php");
+            $_SESSION['role'] = $user['role'];
+
+            // Redirect based on role
+            if ($user['role'] === 'admin') {
+                header("Location: ../../pages/admin_dashboard.php");
+            } else {
+                header("Location: ../../pages/user_dashboard.php");
+            }
             exit();
         } else {
             $error = "Invalid username or password.";
@@ -32,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/css/styles.css">
     <title>Login</title>
 </head>
@@ -51,9 +70,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
+            <!-- Show password feature (optional) -->
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="showPassword">
+                <label class="form-check-label" for="showPassword">Show Password</label>
+            </div>
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
         <p class="mt-3">Don't have an account? <a href="register.php">Register here</a></p>
     </div>
+
+    <!-- Optional JS for "Show Password" functionality -->
+    <script>
+        document.getElementById('showPassword').addEventListener('change', function() {
+            var passwordField = document.getElementById('password');
+            passwordField.type = this.checked ? 'text' : 'password';
+        });
+    </script>
 </body>
 </html>
